@@ -1,13 +1,13 @@
 spring:
   application:
-    name: user-service
+    name: blog-service
   config:
     import: "optional:configserver:http://localhost:8088"
   datasource:
-    url: jdbc:mysql://localhost:3306/user
+    url: jdbc:mysql://localhost:3306/blog
     username: pdursley
     password: Q1234qwe #for macOS
-#    password: Q1234qwe__ # for fedora
+    #    password: Q1234qwe__ # for fedora
     driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
       properties:

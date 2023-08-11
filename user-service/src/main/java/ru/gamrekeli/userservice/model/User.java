@@ -1,4 +1,4 @@
-package ru.gamrekeli.userservice.entity;
+package ru.gamrekeli.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +22,10 @@ public class User {
             generator = "sequence_user"
     )
     private Long userId;
+    @Column(
+            name = "username",
+            unique = true
+    )
     private String username;
     private String password;
     private String mail;
