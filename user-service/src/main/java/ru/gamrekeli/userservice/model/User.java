@@ -10,7 +10,15 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Builder
+@Table(
+        name = "users",
+        uniqueConstraints = @UniqueConstraint(
+                name = "email",
+                columnNames = "email_address"
+        )
+)
 public class User {
+
     @Id
     @SequenceGenerator(
             name = "sequence_user",
@@ -22,11 +30,12 @@ public class User {
             generator = "sequence_user"
     )
     private Long userId;
-    @Column(
-            name = "username",
-            unique = true
-    )
+
     private String username;
     private String password;
-    private String mail;
+    @Column(
+            name = "email_address",
+            nullable = false
+    )
+    private String email;
 }

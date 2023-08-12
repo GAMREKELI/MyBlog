@@ -24,10 +24,20 @@ public class Comment {
     )
     private Long commentId;
     @Column(
+            name = "text",
             nullable = false
     )
     private String text;
 
+    @Column(
+            name = "author",
+            nullable = false
+    )
     private Long authorId;
+
+    @Column(
+            name = "blog",
+            nullable = false
+    )
     private Long blogId;
 }
