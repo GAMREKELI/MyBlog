@@ -1,4 +1,4 @@
-package ru.gamrekeli.userservice.configuration;
+package ru.gamrekeli.userservice.jwtconfiguration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

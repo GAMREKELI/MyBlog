@@ -1,4 +1,4 @@
-package ru.gamrekeli.userservice.configuration;
+package ru.gamrekeli.userservice.jwtconfiguration;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "4D8FA66C4AE12DD67D22FF64119A8";
+    private static final String SECRET_KEY = "4D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64119A84D8FA66C4AE12DD67D22FF64";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
