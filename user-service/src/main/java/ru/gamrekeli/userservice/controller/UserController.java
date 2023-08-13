@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.gamrekeli.userservice.model.User;
 import ru.gamrekeli.userservice.service.UserService;
 
 @Controller
@@ -26,13 +25,4 @@ public class UserController {
         return "showUsers/showUser";
     }
 
-    @GetMapping("/add")
-    public String addUser(@ModelAttribute("user") User user) {
-        return "addUser/addUser";
-    }
-    @PostMapping("/add")
-    public String save(@ModelAttribute("user") User user) {
-        userService.addUser(user);
-        return "redirect:/api/v1";
-    }
 }

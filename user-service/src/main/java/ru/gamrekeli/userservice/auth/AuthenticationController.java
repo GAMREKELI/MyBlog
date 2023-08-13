@@ -3,28 +3,44 @@ package ru.gamrekeli.userservice.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponce> register (
-            @RequestBody RegisterRequest request
-    ) {
-        return ResponseEntity.ok(service.register(request));
+
+    @GetMapping("/authenticate")
+    public String authenticateUser(@ModelAttribute("request") AuthenticationRequest request) {
+        System.out.println("TEEEESTTTTT");
+        return "login";
     }
 
-    @PostMapping("/authonticate")
-    public ResponseEntity<AuthenticationResponce> register (
-            @RequestBody AuthenticationRequest request
+    @GetMapping("/register")
+    public String registerUser(@ModelAttribute("request") RegisterRequest request) {
+        return "singUp";
+    }
+
+    @PostMapping("/register")
+    public String register (
+            @ModelAttribute("request") RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.authenticate(request));
+
+        service.register(request);
+        return "redirect:/api/v1/auth/authenticate";
+    }
+
+    @PostMapping("/authenticate")
+    public String register (
+            @ModelAttribute("request") AuthenticationRequest request
+    ) {
+        System.out.println(request.getUsername());
+        System.out.println(request.getPassword());
+        System.out.println("LOOOOLLLLLL");
+        service.authenticate(request);
+        return "redirect:/api/v1/auth/authenticate";
     }
 }

@@ -4,24 +4,20 @@
   <title>Spring Security Example </title>
 </head>
 <body>
-<!--  <div th:if="${param.error}">-->
-<!--    Invalid username and password.-->
-<!--  </div>-->
-<!--  <div th:if="${param.logout}">-->
-<!--    You have been logged out.-->
-<!--  </div>-->
-<!--  <form th:action="@{/login}" th:method="POST">-->
-<!--    <div><label> Логин : <input type="text" name="username"/> </label></div>-->
-<!--    <div><label> Пароль : <input type="password" name="password"/> </label></div>-->
-<!--    <button type="submit">Войти</button>-->
-<!--  </form>-->
-<!--  -->
-<!--  &lt;!&ndash;  Регистрация&ndash;&gt;-->
-<!--  <form th:action="@{/singUp}" th:method="GET">-->
-<!--    <button type="submit">Зарегистрироваться</button>-->
-<!--  </form>-->
-  <form th:action="@{/security/login}" th:method="POST">
-    <button type="submit">Зарегистрироваться!</button>
+  <form th:action="@{/api/v1/auth/register}" th:method="POST" th:object="${request}">
+    <label for="username">Имя пользователя: </label>
+    <input type="text" th:field="*{username}" id="username">
+    <br/>
+
+    <label for="password">Пароль: </label>
+    <input type="text" th:field="*{password}" id="password">
+    <br/>
+
+    <label for="email">Почта: </label>
+    <input type="text" th:field="*{email}" id="email">
+    <br/>
+
+    <button type="submit">Создать</button>
   </form>
 </body>
 </html>
