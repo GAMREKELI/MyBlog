@@ -15,7 +15,6 @@ public class AuthenticationController {
 
     @GetMapping("/authenticate")
     public String authenticateUser(@ModelAttribute("request") AuthenticationRequest request) {
-        System.out.println("TEEEESTTTTT");
         return "login";
     }
 
@@ -37,8 +36,8 @@ public class AuthenticationController {
     public String register (
             @ModelAttribute("request") AuthenticationRequest request
     ) {
-        System.out.println(request.getUsername());
-        System.out.println(request.getPassword());
+//        System.out.println(request.getUsername());
+//        System.out.println(request.getPassword());
         System.out.println("LOOOOLLLLLL");
         service.authenticate(request);
         return "redirect:/api/v1/auth/authenticate";

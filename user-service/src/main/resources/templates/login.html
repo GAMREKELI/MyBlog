@@ -29,22 +29,26 @@
   <title>Spring Security Example </title>
 </head>
 <body>
-<div th:if="${param.error}">
-  Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-  You have been logged out.
-</div>
-<form th:action="@{/api/v1/auth/authenticate}" th:method="POST" th:object="${request}">
-  <label for="username">Логин : </label>
-  <input type="text" th:field="*{username}" id="username">
-  <br/>
+  <div th:if="${param.error}">
+    Invalid username and password.
+  </div>
+  <div th:if="${param.logout}">
+    You have been logged out.
+  </div>
+  <form th:action="@{/api/v1/auth/authenticate}" th:method="POST" th:object="${request}">
+    <label for="username">Логин : </label>
+    <input type="text" th:field="*{username}" id="username">
+    <br/>
 
-  <label for="password">Пароль : </label>
-  <input type="text" th:field="*{password}" id="password">
-  <br/>
+    <label for="password">Пароль : </label>
+    <input type="text" th:field="*{password}" id="password">
+    <br/>
 
-  <button type="submit">Войти</button>
-</form>
+    <button type="submit">Войти</button>
+  </form>
+  <!--  Регистрация-->
+  <form th:action="@{/api/v1/auth/register}" th:method="GET">
+    <button type="submit">Зарегистрироваться</button>
+  </form>
 </body>
 </html>
