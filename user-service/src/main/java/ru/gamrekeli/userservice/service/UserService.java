@@ -3,6 +3,7 @@ package ru.gamrekeli.userservice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gamrekeli.userservice.model.User;
+import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.repository.UserRepository;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public class UserService {
     public void addUser(User user) {
         userRepository.save(user);
     }
+
+//    public List<Blog> findAllBlog() {
+//        userRepository ;
+//    }
 }
