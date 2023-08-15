@@ -34,11 +34,12 @@ public class UserController {
         return "showUsers/showUser";
     }
 
-    @GetMapping("/with-blogs/{authorId}")
-    public String showAllBlogs(@PathVariable("authorId") Long authorId, Model model) {
-        List<Blog> blogs = blogClient.findAllBlogsByAuthorId(authorId);
+    @GetMapping("/with-blogs/{userId}")
+    public String showAllBlogs(@PathVariable("userId") Long userId, Model model) {
+        List<Blog> blogs = blogClient.findAllBlogsByAuthorId(userId);
 
         model.addAttribute("blogs", blogs);
+        model.addAttribute("userId", userId);
         return "showBlog/showAll";
     }
 
@@ -48,20 +49,27 @@ public class UserController {
     @GetMapping("/{userId}/add-blog")
     public String showCreateBlogForm(@PathVariable("userId") Long userId, Model model) {
         Blog blog = new Blog();
-        blog.setAuthorId(userId);
+        model.addAttribute("userId", userId);
         model.addAttribute("blog", blog);
         return "addBlog/addBlog";
     }
 
-    @PostMapping("/create")
-    public String addBlog(@ModelAttribute("blog") Blog blog) {
+    @PostMapping("/{userId}/create")
+    public String addBlog(@ModelAttribute("blog") Blog blog, @PathVariable("userId") Long userId) {
+        blog.setAuthorId(userId);
 //        try {
             blogClient.save(blog);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            // Дополнительная обработка исключения, например, логирование
 //        }
-        return "redirect:/api/v1";
+        return "redirect:/api/v1/with-blogs/" + userId;
+    }
+
+    @DeleteMapping("/{userId}/{blogId}")
+    public String deleteBlogById(@PathVariable("blogId") Long blogId, @PathVariable("userId") Long userId) {
+        blogClient.delete(blogId);
+        return "redirect:/api/v1/with-blogs/" + userId;
     }
 
 }

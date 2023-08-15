@@ -8,6 +8,9 @@
   <div th:each="blog: ${blogs}">
     <h2 th:text="${blog.getTitle()}">TITLE</h2>
     <p th:text="${blog.getContent()}">CONTENT</p>
+    <form th:action="@{/api/v1/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
+      <button type="submit">Удалить</button>
+    </form>
   </div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package ru.gamrekeli.blogservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.blogservice.model.Blog;
 import ru.gamrekeli.blogservice.service.BlogService;
@@ -31,6 +30,12 @@ public class BlogController {
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Blog blog) {
         service.add(blog);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{blogId}")
+    public ResponseEntity<?> delete(@PathVariable("blogId") Long blogId) {
+        service.deleteByBlogId(blogId);
         return ResponseEntity.ok().build();
     }
 }

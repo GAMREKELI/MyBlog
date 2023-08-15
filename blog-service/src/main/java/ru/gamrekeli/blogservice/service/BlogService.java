@@ -23,4 +23,8 @@ public class BlogService {
     public List<Blog> findAllByAuthorId(Long authorId) {
         return repository.findAllByAuthorId(authorId);
     }
+
+    public void deleteByBlogId(Long blogId) {
+        repository.deleteById(blogId);
+    }
 }
