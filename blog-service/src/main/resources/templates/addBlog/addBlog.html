@@ -6,19 +6,6 @@
 </head>
 <body>
   <form th:action="@{/blog/add}" th:method="POST" th:object="${blog}">
-    <label for="title">Заголовок: </label>
-    <input type="text" th:field="*{title}" id="title">
-    <br/>
-
-    <label for="content">Содержимое: </label>
-    <input type="text" th:field="*{content}" id="content">
-    <br/>
-
-    <label for="authorId">Автор: </label>
-    <input type="text" th:field="*{authorId}" id="authorId">
-    <br/>
-
-    <button type="submit">Создать</button>
   </form>
 </body>
 </html>

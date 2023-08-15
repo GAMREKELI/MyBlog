@@ -22,20 +22,15 @@ public class BlogController {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
 
-    @GetMapping()
-    public String findAll(Model model) {
-        model.addAttribute("blogs", service.findAll());
-        return "showBlog/showAll";
-    }
-
-    @GetMapping("/add")
-    public String add(@ModelAttribute("blog") Blog blog) {
-        return "addBlog/addBlog";
-    }
+//    @GetMapping("/add")
+//    public String findAll(@RequestBody Blog blog, Model model) {
+//        model.addAttribute("blog");
+//        return "addBlog/addBlog";
+//    }
 
     @PostMapping("/add")
-    public String save(@ModelAttribute("blog") Blog blog) {
+    public ResponseEntity<?> save(@RequestBody Blog blog) {
         service.add(blog);
-        return "redirect:/blog";
+        return ResponseEntity.ok().build();
     }
 }

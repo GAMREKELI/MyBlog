@@ -42,4 +42,26 @@ public class UserController {
         return "showBlog/showAll";
     }
 
+
+    // Создание блога:
+
+    @GetMapping("/{userId}/add-blog")
+    public String showCreateBlogForm(@PathVariable("userId") Long userId, Model model) {
+        Blog blog = new Blog();
+        blog.setAuthorId(userId);
+        model.addAttribute("blog", blog);
+        return "addBlog/addBlog";
+    }
+
+    @PostMapping("/create")
+    public String addBlog(@ModelAttribute("blog") Blog blog) {
+//        try {
+            blogClient.save(blog);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // Дополнительная обработка исключения, например, логирование
+//        }
+        return "redirect:/api/v1";
+    }
+
 }
