@@ -2,9 +2,9 @@ package ru.gamrekeli.userservice.auth;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.gamrekeli.userservice.repository.UserRepository;
 
 @Controller
 @RequestMapping("/api/v1/auth")
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final UserRepository userRepository;
 
     @GetMapping("/authenticate")
     public String authenticateUser(@ModelAttribute("request") AuthenticationRequest request) {
@@ -33,13 +34,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public String register (
+    public void register (
             @ModelAttribute("request") AuthenticationRequest request
     ) {
-//        System.out.println(request.getUsername());
-//        System.out.println(request.getPassword());
-        System.out.println("LOOOOLLLLLL");
         service.authenticate(request);
-        return "redirect:/api/v1/auth/authenticate";
+//        return "redirect:/api/v1/auth/authenticate";
+//        return "redirect:/api/v1/with-blogs/" + userRepository.findUserIdByUsername(request.getUsername());
     }
 }

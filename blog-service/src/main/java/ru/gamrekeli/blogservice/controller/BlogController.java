@@ -21,12 +21,6 @@ public class BlogController {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
 
-//    @GetMapping("/add")
-//    public String findAll(@RequestBody Blog blog, Model model) {
-//        model.addAttribute("blog");
-//        return "addBlog/addBlog";
-//    }
-
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Blog blog) {
         service.add(blog);

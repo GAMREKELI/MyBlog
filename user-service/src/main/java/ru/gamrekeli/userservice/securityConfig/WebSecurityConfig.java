@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.gamrekeli.userservice.jwtconfiguration.JwtAuthenticationFilter;
+import ru.gamrekeli.userservice.model.User;
+import ru.gamrekeli.userservice.repository.UserRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +20,7 @@ public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,7 +34,12 @@ public class WebSecurityConfig {
                 .and()
                     .formLogin((form) -> form
                             .loginPage("/api/v1/auth/authenticate")
-                            .defaultSuccessUrl("/api/v1", true)
+                            .successHandler(((request, response, authentication) -> {
+                                String Username = authentication.getName();
+                                String targetUrl = "/api/v1/with-blogs/" + userRepository.findByUsername(Username)
+                                        .map(User::getUserId).orElse(null); // пофиксить null.
+                                response.sendRedirect(targetUrl);
+                            }))
                             .permitAll())
                     .authenticationProvider(authenticationProvider)
                     .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

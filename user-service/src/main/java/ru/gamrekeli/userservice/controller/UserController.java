@@ -1,6 +1,5 @@
 package ru.gamrekeli.userservice.controller;
 
-import jakarta.ws.rs.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -12,5 +12,15 @@
       <button type="submit">Удалить</button>
     </form>
   </div>
+
+<!--  Создание записи на странице пользователя-->
+  <form th:action="@{/api/v1/{userId}/add-blog(userId = ${userId})}" th:method="GET">
+    <button type="submit">Создать</button>
+  </form>
+
+<!--  Выйти из аккаунта-->
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+  </form>
 </body>
 </html>
