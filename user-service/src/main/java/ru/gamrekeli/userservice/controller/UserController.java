@@ -23,8 +23,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class UserController {
 
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 

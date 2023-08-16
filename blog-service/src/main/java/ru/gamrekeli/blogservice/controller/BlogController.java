@@ -16,8 +16,8 @@ import java.util.List;
 @RequestMapping("/blog")
 public class BlogController {
 
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(BlogController.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(BlogController.class);
 
     private final BlogService service;
 

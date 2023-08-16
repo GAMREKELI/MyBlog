@@ -9,28 +9,28 @@
     <h2 th:text="${blog.getTitle()}">TITLE</h2>
     <p th:text="${blog.getContent()}">CONTENT</p>
 
+    <br/>
     <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">
       <button type="submit">Комментарии</button>
     </form>
 
+    <br/>
     <div th:if="${itsMe}">
       <form th:action="@{/api/v1/blog/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
         <button type="submit">Удалить</button>
       </form>
-
-<!--      <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">-->
-<!--        <button type="submit">Комментарии</button>-->
-<!--      </form>-->
     </div>
   </div>
 
 
 <!--  Создание записи на странице пользователя-->
+  <br/>
   <div th:if="${itsMe}">
     <form th:action="@{/api/v1/blog/{userId}/add-blog(userId = ${userId})}" th:method="GET">
       <button type="submit">Создать</button>
     </form>
   </div>
+  <br/>
 <!--  Выйти из аккаунта-->
   <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>

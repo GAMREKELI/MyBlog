@@ -1,6 +1,8 @@
 package ru.gamrekeli.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -8,13 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.userservice.client.CommentClient;
 import ru.gamrekeli.userservice.model.comment.Comment;
-import ru.gamrekeli.userservice.securityConfig.authenticateComponent.SecurityComponent;
-import ru.gamrekeli.userservice.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comment")
 public class CommentController {
+
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(CommentController.class);
 
     @Autowired
     private CommentClient commentClient;
