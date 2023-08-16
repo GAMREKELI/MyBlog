@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.gamrekeli.userservice.jwtconfiguration.JwtAuthenticationFilter;
 import ru.gamrekeli.userservice.model.User;
 import ru.gamrekeli.userservice.repository.UserRepository;
+import ru.gamrekeli.userservice.securityConfig.authenticateComponent.SecurityComponent;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +29,7 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
+//                .requestMatchers("/api/v1/{userId}/**").access("@mySecurity.checkUserByUserId(authentication, #userId)")
                     .requestMatchers("/api/v1/auth/**").permitAll()
                 .anyRequest()
                     .authenticated()

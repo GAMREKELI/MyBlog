@@ -8,16 +8,20 @@
   <div th:each="blog: ${blogs}">
     <h2 th:text="${blog.getTitle()}">TITLE</h2>
     <p th:text="${blog.getContent()}">CONTENT</p>
-    <form th:action="@{/api/v1/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
-      <button type="submit">Удалить</button>
-    </form>
+    <div th:if="${itsMe}">
+      <form th:action="@{/api/v1/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
+        <button type="submit">Удалить</button>
+      </form>
+    </div>
   </div>
 
-<!--  Создание записи на странице пользователя-->
-  <form th:action="@{/api/v1/{userId}/add-blog(userId = ${userId})}" th:method="GET">
-    <button type="submit">Создать</button>
-  </form>
 
+<!--  Создание записи на странице пользователя-->
+  <div th:if="${itsMe}">
+    <form th:action="@{/api/v1/{userId}/add-blog(userId = ${userId})}" th:method="GET">
+      <button type="submit">Создать</button>
+    </form>
+  </div>
 <!--  Выйти из аккаунта-->
   <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
