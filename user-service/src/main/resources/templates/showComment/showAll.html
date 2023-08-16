@@ -6,20 +6,24 @@
 </head>
 <body>
   <div th:each="comment: ${comments}">
-<!--    <h2 th:text="${comment.getText()}">TITLE</h2>-->
     <p th:text="${comment.getAuthor()}">AUTHOR</p>
     <p th:text="${comment.getText()}">TEXT</p>
-<!--    <div th:if="${itsMe}">-->
-      <form th:action="@{/api/v1/with-blogs/{userId}/{blogId}/{commentId}(userId = ${userId}, blogId = ${blogId}, commentId = ${comment.getCommentId()})}" th:method="DELETE">
-        <button type="submit">Удалить</button>
+      <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}/{commentId}(userId = ${userId}, blogId = ${blogId}, commentId = ${comment.getCommentId()})}" th:method="DELETE">
+          <br/>
+          <button type="submit">Удалить</button>
       </form>
-<!--    </div>-->
   </div>
-  <form th:action="@{/api/v1/with-blogs/{userId}/{blogId}/create(userId = ${userId}, blogId = ${blogId})}" th:method="POST" th:object="${commentForBlog}">
+  <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}/create(userId = ${userId}, blogId = ${blogId})}" th:method="POST" th:object="${commentForBlog}">
+      <br/>
       <label for="text">Комментарий: </label>
       <input type="text" th:field="*{text}" id="text">
       <br/>
       <button type="submit">Написать комментарий</button>
+  </form>
+
+  <form th:action="@{/api/v1/with-blogs/{userId}(userId = ${userId})}" th:method="GET">
+      <br/>
+      <button type="submit">Назад</button>
   </form>
 </body>
 </html>

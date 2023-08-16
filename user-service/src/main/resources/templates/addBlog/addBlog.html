@@ -5,7 +5,7 @@
   <title>Написать</title>
 </head>
 <body>
-  <form th:action="@{/api/v1/{userId}/create(userId = ${userId})}" th:method="POST" th:object="${blog}">
+  <form th:action="@{/api/v1/blog/{userId}/create(userId = ${userId})}" th:method="POST" th:object="${blog}">
     <label for="title">Заголовок: </label>
     <input type="text" th:field="*{title}" id="title">
     <br/>

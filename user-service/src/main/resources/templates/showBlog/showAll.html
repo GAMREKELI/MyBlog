@@ -8,21 +8,26 @@
   <div th:each="blog: ${blogs}">
     <h2 th:text="${blog.getTitle()}">TITLE</h2>
     <p th:text="${blog.getContent()}">CONTENT</p>
+
+    <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">
+      <button type="submit">Комментарии</button>
+    </form>
+
     <div th:if="${itsMe}">
-      <form th:action="@{/api/v1/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
+      <form th:action="@{/api/v1/blog/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
         <button type="submit">Удалить</button>
       </form>
 
-      <form th:action="@{/api/v1/with-blogs/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">
-        <button type="submit">Комментарии</button>
-      </form>
+<!--      <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">-->
+<!--        <button type="submit">Комментарии</button>-->
+<!--      </form>-->
     </div>
   </div>
 
 
 <!--  Создание записи на странице пользователя-->
   <div th:if="${itsMe}">
-    <form th:action="@{/api/v1/{userId}/add-blog(userId = ${userId})}" th:method="GET">
+    <form th:action="@{/api/v1/blog/{userId}/add-blog(userId = ${userId})}" th:method="GET">
       <button type="submit">Создать</button>
     </form>
   </div>

@@ -33,9 +33,9 @@ public class UserController {
 
     @Autowired
     private BlogClient blogClient;
-
-    @Autowired
-    private CommentClient commentClient;
+//
+//    @Autowired
+//    private CommentClient commentClient;
 
     @GetMapping()
     public String showAll(Model model) {
@@ -64,71 +64,70 @@ public class UserController {
     }
 
 
-    // Создание блога:
+//    // Создание блога:
+//    @GetMapping("/{userId}/add-blog")
+//    public String showCreateBlogForm(@PathVariable("userId") Long userId,
+//                                     Model model,
+//                                     Authentication authentication,
+//                                     @ModelAttribute("blog") Blog blog) {
+//        if (securityComponent.checkUserByUserId(authentication, userId)) {
+//            model.addAttribute("userId", userId);
+//            return "addBlog/addBlog";
+//        }
+//        else {
+//            return "redirect:/api/v1/with-blogs/" + userId;
+//        }
+//    }
+//
+//    @PostMapping("/{userId}/create")
+//    public String addBlog(@ModelAttribute("blog") Blog blog,
+//                          @PathVariable("userId") Long userId,
+//                          Authentication authentication) {
+//        if (securityComponent.checkUserByUserId(authentication, userId)) {
+//            blog.setAuthorId(userId);
+//            blogClient.save(blog);
+//        }
+//        return "redirect:/api/v1/with-blogs/" + userId;
+//    }
+//
+//    @DeleteMapping("/{userId}/{blogId}")
+//    public String deleteBlogById(@PathVariable("blogId") Long blogId,
+//                                 @PathVariable("userId") Long userId, Authentication authentication) {
+//        if (securityComponent.checkUserByUserId(authentication, userId)) {
+//            blogClient.delete(blogId);
+//        }
+//        return "redirect:/api/v1/with-blogs/" + userId;
+//    }
 
-    @GetMapping("/{userId}/add-blog")
-    public String showCreateBlogForm(@PathVariable("userId") Long userId,
-                                     Model model,
-                                     Authentication authentication,
-                                     @ModelAttribute("blog") Blog blog) {
-        if (securityComponent.checkUserByUserId(authentication, userId)) {
-            model.addAttribute("userId", userId);
-            return "addBlog/addBlog";
-        }
-        else {
-            return "redirect:/api/v1/with-blogs/" + userId;
-        }
-    }
-
-    @PostMapping("/{userId}/create")
-    public String addBlog(@ModelAttribute("blog") Blog blog,
-                          @PathVariable("userId") Long userId,
-                          Authentication authentication) {
-        if (securityComponent.checkUserByUserId(authentication, userId)) {
-            blog.setAuthorId(userId);
-            blogClient.save(blog);
-        }
-        return "redirect:/api/v1/with-blogs/" + userId;
-    }
-
-    @DeleteMapping("/{userId}/{blogId}")
-    public String deleteBlogById(@PathVariable("blogId") Long blogId,
-                                 @PathVariable("userId") Long userId, Authentication authentication) {
-        if (securityComponent.checkUserByUserId(authentication, userId)) {
-            blogClient.delete(blogId);
-        }
-        return "redirect:/api/v1/with-blogs/" + userId;
-    }
-
-    // Создание комментариев:
-    @GetMapping("/with-blogs/{userId}/{blogId}")
-    public String showAllComment(@PathVariable("userId") Long userId,
-                                 @PathVariable("blogId") Long blogId,
-                                 Model model,
-                                 @ModelAttribute("commentForBlog") Comment comment) {
-        model.addAttribute("comments", commentClient.findAllCommentsByBlogId(blogId));
-        model.addAttribute("blogId", blogId);
-        model.addAttribute("userId", userId);
-        return "showComment/showAll";
-
-    }
-
-    @PostMapping("/with-blogs/{userId}/{blogId}/create")
-    public String addComment(@ModelAttribute("commentForBlog") Comment comment,
-                          @PathVariable("userId") Long userId, @PathVariable("blogId") Long blogId,
-                          Authentication authentication) {
-        comment.setAuthorId(userId);
-        comment.setBlogId(blogId);
-        comment.setAuthor(authentication.getName());
-        commentClient.save(comment);
-        return "redirect:/api/v1/with-blogs/" + userId + "/" + blogId;
-    }
-
-    @DeleteMapping("/with-blogs/{userId}/{blogId}/{commentId}")
-    public String deleteCommentById(@PathVariable("blogId") Long blogId,
-                                 @PathVariable("userId") Long userId, @PathVariable("commentId") Long commentId) {
-        commentClient.delete(commentId);
-        return "redirect:/api/v1/with-blogs/" + userId + "/" + blogId;
-    }
+//    // Создание комментариев:
+//    @GetMapping("/with-blogs/{userId}/{blogId}")
+//    public String showAllComment(@PathVariable("userId") Long userId,
+//                                 @PathVariable("blogId") Long blogId,
+//                                 Model model,
+//                                 @ModelAttribute("commentForBlog") Comment comment) {
+//        model.addAttribute("comments", commentClient.findAllCommentsByBlogId(blogId));
+//        model.addAttribute("blogId", blogId);
+//        model.addAttribute("userId", userId);
+//        return "showComment/showAll";
+//
+//    }
+//
+//    @PostMapping("/with-blogs/{userId}/{blogId}/create")
+//    public String addComment(@ModelAttribute("commentForBlog") Comment comment,
+//                          @PathVariable("userId") Long userId, @PathVariable("blogId") Long blogId,
+//                          Authentication authentication) {
+//        comment.setAuthorId(userId);
+//        comment.setBlogId(blogId);
+//        comment.setAuthor(authentication.getName());
+//        commentClient.save(comment);
+//        return "redirect:/api/v1/with-blogs/" + userId + "/" + blogId;
+//    }
+//
+//    @DeleteMapping("/with-blogs/{userId}/{blogId}/{commentId}")
+//    public String deleteCommentById(@PathVariable("blogId") Long blogId,
+//                                 @PathVariable("userId") Long userId, @PathVariable("commentId") Long commentId) {
+//        commentClient.delete(commentId);
+//        return "redirect:/api/v1/with-blogs/" + userId + "/" + blogId;
+//    }
 
 }
