@@ -1,6 +1,8 @@
 package ru.gamrekeli.blogservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/blog")
 public class BlogController {
+
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(BlogController.class);
 
     private final BlogService service;
 

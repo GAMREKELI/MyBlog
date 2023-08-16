@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Комментарии</title>
+</head>
+<body>
+  <div th:each="comment: ${comments}">
+<!--    <h2 th:text="${comment.getText()}">TITLE</h2>-->
+    <p th:text="${comment.getAuthor()}">AUTHOR</p>
+    <p th:text="${comment.getText()}">TEXT</p>
+<!--    <div th:if="${itsMe}">-->
+      <form th:action="@{/api/v1/with-blogs/{userId}/{blogId}/{commentId}(userId = ${userId}, blogId = ${blogId}, commentId = ${comment.getCommentId()})}" th:method="DELETE">
+        <button type="submit">Удалить</button>
+      </form>
+<!--    </div>-->
+  </div>
+  <form th:action="@{/api/v1/with-blogs/{userId}/{blogId}/create(userId = ${userId}, blogId = ${blogId})}" th:method="POST" th:object="${commentForBlog}">
+      <label for="text">Комментарий: </label>
+      <input type="text" th:field="*{text}" id="text">
+      <br/>
+      <button type="submit">Написать комментарий</button>
+  </form>
+</body>
+</html>

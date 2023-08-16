@@ -8,11 +8,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import ru.gamrekeli.userservice.client.BlogClient;
+import ru.gamrekeli.userservice.client.CommentClient;
 
 @Configuration
 public class WebClientConfig {
     @Autowired
     private LoadBalancedExchangeFilterFunction filterFunction;
+
+    // Клиент сервиса Blog
     @Bean
     public WebClient blogWebClient() {
         return WebClient.builder()
@@ -28,5 +31,23 @@ public class WebClientConfig {
                 .builder(WebClientAdapter.forClient(blogWebClient()))
                 .build();
         return httpServiceProxyFactory.createClient(BlogClient.class);
+    }
+
+    // Клиент сервиса Comment
+    @Bean
+    public WebClient commentWebClint() {
+        return WebClient.builder()
+                .baseUrl("http://comment-service")
+                .filter(filterFunction)
+                .build();
+    }
+
+    @Bean
+    public CommentClient commentClient() {
+        HttpServiceProxyFactory httpServiceProxyFactory
+                = HttpServiceProxyFactory
+                .builder(WebClientAdapter.forClient(commentWebClint()))
+                .build();
+        return httpServiceProxyFactory.createClient(CommentClient.class);
     }
 }

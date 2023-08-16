@@ -30,11 +30,16 @@ public class Comment {
     private String text;
 
     @Column(
-            name = "author",
+            name = "author_id",
             nullable = false
     )
     private Long authorId;
 
+    @Column(
+            name = "author",
+            nullable = false
+    )
+    private String author;
     @Column(
             name = "blog",
             nullable = false
