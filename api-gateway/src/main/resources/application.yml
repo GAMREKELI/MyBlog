@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: optional:configserver:http://localhost:8088
+  cloud:
+    gateway:
+      routes:
+        - id: blog-service
+          uri: lb://blog-service
+          predicates:
+            - Path=/blog/**
+        - id: comment-service
+          uri: lb://comment-service
+          predicates:
+            - Path=/comment/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/**
