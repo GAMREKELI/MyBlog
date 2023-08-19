@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api-gateway" />
         <module name="comment-service" />
-        <module name="user-service" />
+        <module name="authentication-service" />
         <module name="config-service" />
+        <module name="api-gateway" />
+        <module name="user-service" />
         <module name="blog-service" />
         <module name="service-registry" />
       </profile>
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="article" options="-parameters" />
+      <module name="authentication-service" options="-parameters" />
       <module name="blog-service" options="-parameters" />
       <module name="comment" options="-parameters" />
       <module name="comment-service" options="-parameters" />
