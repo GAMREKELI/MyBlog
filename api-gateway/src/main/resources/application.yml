@@ -10,11 +10,21 @@ spring:
           uri: lb://blog-service
           predicates:
             - Path=/blog/**
-        - id: comment-service
-          uri: lb://comment-service
+          filters:
+            - AuthenticationFilter
+#        - id: comment-service
+#          uri: lb://comment-service
+#          predicates:
+#            - Path=/comment/**
+#          filters:
+#            - AuthenticationFilter
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/api/v1/**
+#          filters:
+#            - AuthenticationFilter
+        - id: authentication-service
+          uri: lb://authentication-service
           predicates:
-            - Path=/comment/**
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/api/v1/**
+            - Path=/auth/**
