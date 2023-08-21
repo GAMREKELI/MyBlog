@@ -1,3 +1,10 @@
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web: INFO
+#    org.springframework.security: INFO
+#    org.springframework.security.oauth2: INFO
+
 spring:
   application:
     name: api-gateway
@@ -7,24 +14,24 @@ spring:
     gateway:
       routes:
         - id: blog-service
-          uri: lb://blog-service
+          uri: http://127.0.0.1:8083
           predicates:
             - Path=/blog/**
           filters:
-            - AuthenticationFilter
-#        - id: comment-service
-#          uri: lb://comment-service
-#          predicates:
-#            - Path=/comment/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: user-service
-#          uri: lb://user-service
-#          predicates:
-#            - Path=/api/v1/**
-#          filters:
-#            - AuthenticationFilter
-        - id: authentication-service
-          uri: lb://authentication-service
-          predicates:
-            - Path=/auth/**
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
+
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: spring
+            client-id: gateway
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid,resource.read
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
