@@ -25,8 +25,14 @@ spring:
           predicates:
             - Path=/comment/**
           filters:
-            - TokenRelay=
-            - RemoveRequestHeader=Cookie
+            - name: TokenRelay
+            - name: AddRequestHeader
+              args:
+                name: Authorization
+                value: Bearer {token}
+            - name: RemoveRequestHeader
+              args:
+                name: Cookie
         - id: user-service
           uri: http://127.0.0.1:8081
           predicates:

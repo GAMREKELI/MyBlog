@@ -12,7 +12,7 @@ public class BlogServerConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/blog/**").hasAuthority("SCOPE_resource.read")
+                                .requestMatchers("/blog/**", "/api/v1/**").hasAuthority("SCOPE_resource.read")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()

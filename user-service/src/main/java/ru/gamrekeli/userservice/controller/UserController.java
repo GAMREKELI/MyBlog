@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,8 @@ public class UserController {
     @GetMapping("/with-blogs/{userId}")
     public String showAllBlogs(@PathVariable("userId") Long userId,
                                Model model, Authentication authentication) {
-        List<Blog> blogs = blogClient.findAllBlogsByAuthorId(userId);
+        String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+        List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
         model.addAttribute("itsMe", itsMe);

@@ -2,6 +2,7 @@ package ru.gamrekeli.userservice.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,16 @@ import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
+
 @Controller
 //@AllArgsConstructor
 @RequestMapping("/api/v1/blog")
+@Slf4j
 public class BlogController {
     private static final Logger LOGGER
             = LoggerFactory.getLogger(BlogController.class);
+
+    private final Logger logger = LoggerFactory.getLogger(BlogController.class);
 
     // Ограничевание функционала пользователей между собой (авторизованный пользователь может редактировать только свою страницу)
     @Autowired
@@ -45,6 +50,7 @@ public class BlogController {
     public String addBlog(@ModelAttribute("blog") Blog blog,
                           @PathVariable("userId") Long userId,
                           Authentication authentication) {
+        logger.info("Request received to fetch blogs for authorId: {}", userId);
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             blog.setAuthorId(userId);
             blogClient.save(blog);
