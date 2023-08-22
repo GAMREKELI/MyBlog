@@ -20,6 +20,20 @@ spring:
           filters:
             - TokenRelay=
             - RemoveRequestHeader=Cookie
+        - id: comment-service
+          uri: http://127.0.0.1:8082
+          predicates:
+            - Path=/comment/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
+        - id: user-service
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/api/v1/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
 
   security:
     oauth2:

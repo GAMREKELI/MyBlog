@@ -1,17 +1,18 @@
-package ru.gamrekeli.userservice.securityConfig.authenticateComponent;
+package ru.gamrekeli.userservice.securityConfig.authorizationComponent;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import ru.gamrekeli.userservice.model.User;
 import ru.gamrekeli.userservice.repository.UserRepository;
 
+
 @Component
-@RequiredArgsConstructor
 public class SecurityComponent {
 
-    private final UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
     public boolean checkUserByUserId(Authentication authentication, Long userId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

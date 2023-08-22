@@ -1,35 +1,35 @@
 package ru.gamrekeli.userservice.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.userservice.client.BlogClient;
-import ru.gamrekeli.userservice.client.CommentClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
-import ru.gamrekeli.userservice.model.comment.Comment;
-import ru.gamrekeli.userservice.securityConfig.authenticateComponent.SecurityComponent;
+import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 import ru.gamrekeli.userservice.service.UserService;
 
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/api/v1")
 public class UserController {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(UserController.class);
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     // Ограничевание функционала пользователей между собой (авторизованный пользователь может редактировать только свою страницу)
-    private final SecurityComponent securityComponent;
+    @Autowired
+    private SecurityComponent securityComponent;
 
     @Autowired
     private BlogClient blogClient;

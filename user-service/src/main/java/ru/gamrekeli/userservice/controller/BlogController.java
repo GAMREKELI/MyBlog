@@ -1,5 +1,6 @@
 package ru.gamrekeli.userservice.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,17 +11,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
-import ru.gamrekeli.userservice.securityConfig.authenticateComponent.SecurityComponent;
+import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
 @Controller
-@RequiredArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/api/v1/blog")
 public class BlogController {
     private static final Logger LOGGER
             = LoggerFactory.getLogger(BlogController.class);
 
     // Ограничевание функционала пользователей между собой (авторизованный пользователь может редактировать только свою страницу)
-    private final SecurityComponent securityComponent;
+    @Autowired
+    private SecurityComponent securityComponent;
 
     @Autowired
     private BlogClient blogClient;

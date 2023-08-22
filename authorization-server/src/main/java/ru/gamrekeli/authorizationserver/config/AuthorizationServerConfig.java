@@ -44,17 +44,14 @@ public class AuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE) //порядок приоритета (высокий приоритет)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        log.debug("Config SecurityFilterChain:");
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        log.debug("Config RegisteredClientRepository:");
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("gateway")
-//                .clientSecret("{noop}secret")
                 .clientSecret(passwordEncoder.encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
@@ -69,14 +66,12 @@ public class AuthorizationServerConfig {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        log.debug("Config JWKSource:");
         RSAKey rsaKey = generateRsa();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
     private static RSAKey generateRsa() {
-        log.debug("Config RSAKey:");
         KeyPair keyPair = generateRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
@@ -87,7 +82,6 @@ public class AuthorizationServerConfig {
     }
 
     private static KeyPair generateRsaKey() {
-        log.debug("Config KeyPair:");
         KeyPair keyPair;
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
