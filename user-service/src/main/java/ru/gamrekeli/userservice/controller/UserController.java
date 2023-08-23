@@ -2,6 +2,7 @@ package ru.gamrekeli.userservice.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,13 @@ import java.util.List;
 @Controller
 //@AllArgsConstructor
 @RequestMapping("/api/v1")
+@Slf4j
 public class UserController {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(UserController.class);
+
+//    private static final Logger getLog = null;
 
     @Autowired
     private UserService userService;
@@ -48,7 +52,6 @@ public class UserController {
     }
 
     // Отображение записей на странице пользователя
-
     @GetMapping("/with-blogs/{userId}")
     public String showAllBlogs(@PathVariable("userId") Long userId,
                                Model model, Authentication authentication) {
@@ -56,6 +59,8 @@ public class UserController {
         List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
+        System.out.println(itsMe);
+        log.info(String.valueOf(itsMe));
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);
         model.addAttribute("userId", userId);

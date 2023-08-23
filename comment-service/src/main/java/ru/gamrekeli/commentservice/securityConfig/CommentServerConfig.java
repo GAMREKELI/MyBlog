@@ -1,4 +1,5 @@
-package ru.gamrekeli.blogservice.securityConfig;
+package ru.gamrekeli.commentservice.securityConfig;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,15 +8,15 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
-public class BlogServerConfig {
+public class CommentServerConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/blog/**", "/api/v1/**").hasAuthority("SCOPE_resource.read")
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest
+                                .requestMatchers("/comment/**", "/api/v1/**").hasAuthority("SCOPE_resource.read")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()

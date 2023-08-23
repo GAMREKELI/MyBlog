@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.client.CommentClient;
-import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
 @Configuration
 public class WebClientConfig {

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,6 @@ import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityCo
 
 
 @Controller
-//@AllArgsConstructor
 @RequestMapping("/api/v1/blog")
 @Slf4j
 public class BlogController {
@@ -52,8 +52,10 @@ public class BlogController {
                           Authentication authentication) {
         logger.info("Request received to fetch blogs for authorId: {}", userId);
         if (securityComponent.checkUserByUserId(authentication, userId)) {
+            String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
             blog.setAuthorId(userId);
-            blogClient.save(blog);
+            blogClient.save("Bearer " + token, blog);
+//            blogClient.save(blog);
         }
         return "redirect:/api/v1/with-blogs/" + userId;
     }
@@ -62,7 +64,8 @@ public class BlogController {
     public String deleteBlogById(@PathVariable("blogId") Long blogId,
                                  @PathVariable("userId") Long userId, Authentication authentication) {
         if (securityComponent.checkUserByUserId(authentication, userId)) {
-            blogClient.delete(blogId);
+            String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+            blogClient.delete("Bearer " + token, blogId);
         }
         return "redirect:/api/v1/with-blogs/" + userId;
     }

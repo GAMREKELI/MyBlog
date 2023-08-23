@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,10 @@ public class CommentController {
     public String showAllComment(@PathVariable("userId") Long userId,
                                  @PathVariable("blogId") Long blogId,
                                  Model model,
-                                 @ModelAttribute("commentForBlog") Comment comment) {
-        model.addAttribute("comments", commentClient.findAllCommentsByBlogId(blogId));
+                                 @ModelAttribute("commentForBlog") Comment comment,
+                                 Authentication authentication) {
+        String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+        model.addAttribute("comments", commentClient.findAllCommentsByBlogId("Bearer " + token, blogId));
         model.addAttribute("blogId", blogId);
         model.addAttribute("userId", userId);
         return "showComment/showAll";
@@ -38,17 +41,21 @@ public class CommentController {
     public String addComment(@ModelAttribute("commentForBlog") Comment comment,
                              @PathVariable("userId") Long userId, @PathVariable("blogId") Long blogId,
                              Authentication authentication) {
+        String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         comment.setAuthorId(userId);
         comment.setBlogId(blogId);
         comment.setAuthor(authentication.getName());
-        commentClient.save(comment);
+        commentClient.save("Bearer " + token, comment);
         return "redirect:/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 
     @DeleteMapping("/with-blogs/{userId}/{blogId}/{commentId}")
     public String deleteCommentById(@PathVariable("blogId") Long blogId,
-                                    @PathVariable("userId") Long userId, @PathVariable("commentId") Long commentId) {
-        commentClient.delete(commentId);
+                                    @PathVariable("userId") Long userId,
+                                    @PathVariable("commentId") Long commentId,
+                                    Authentication authentication) {
+        String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+        commentClient.delete("Bearer " + token, commentId);
         return "redirect:/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 }

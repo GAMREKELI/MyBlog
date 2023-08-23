@@ -17,8 +17,8 @@ public interface BlogClient {
     List<Blog> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("authorId") Long authorId);
 
     @PostExchange("/blog/add")
-    public void save(@RequestBody Blog blog);
+    public void save(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Blog blog);
 
     @DeleteExchange("/blog/delete/{blogId}")
-    public void delete(@PathVariable("blogId") Long blogId);
+    public void delete(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("blogId") Long blogId);
 }

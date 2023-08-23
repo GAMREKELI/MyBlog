@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.blogservice.model.Blog;
@@ -23,7 +22,6 @@ public class BlogController {
     private final BlogService service;
 
     @GetMapping("/user/{authorId}")
-//    @PreAuthorize("hasAuthority('SCOPE_resource.read')")
     public ResponseEntity<List<Blog>> findAllBlogsByAuthorId(@PathVariable("authorId") Long authorId) {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
