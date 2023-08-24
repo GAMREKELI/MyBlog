@@ -17,6 +17,9 @@
     <br/>
     <div th:if="${itsMe}">
       <form th:action="@{/api/v1/blog/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="DELETE">
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
         <button type="submit">Удалить</button>
       </form>
     </div>

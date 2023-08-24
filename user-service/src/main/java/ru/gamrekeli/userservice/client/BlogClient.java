@@ -14,11 +14,14 @@ import java.util.List;
 @HttpExchange
 public interface BlogClient {
     @GetExchange("/blog/user/{authorId}")
-    List<Blog> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("authorId") Long authorId);
+    List<Blog> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader,
+                                      @PathVariable("authorId") Long authorId);
 
     @PostExchange("/blog/add")
-    public void save(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Blog blog);
+    public void save(@RequestHeader("Authorization") String authorizationHeader,
+                     @RequestBody Blog blog);
 
     @DeleteExchange("/blog/delete/{blogId}")
-    public void delete(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("blogId") Long blogId);
+    public void delete(@RequestHeader("Authorization") String authorizationHeader,
+                       @PathVariable("blogId") Long blogId);
 }

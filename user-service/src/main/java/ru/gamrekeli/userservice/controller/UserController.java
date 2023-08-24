@@ -1,5 +1,6 @@
 package ru.gamrekeli.userservice.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
@@ -19,15 +22,12 @@ import ru.gamrekeli.userservice.service.UserService;
 import java.util.List;
 
 @Controller
-//@AllArgsConstructor
 @RequestMapping("/api/v1")
 @Slf4j
 public class UserController {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(UserController.class);
-
-//    private static final Logger getLog = null;
 
     @Autowired
     private UserService userService;
@@ -54,16 +54,30 @@ public class UserController {
     // Отображение записей на странице пользователя
     @GetMapping("/with-blogs/{userId}")
     public String showAllBlogs(@PathVariable("userId") Long userId,
-                               Model model, Authentication authentication) {
+                               Model model, Authentication authentication,
+                               HttpServletRequest request) {
+//        LOGGER.debug("Entering showAllBlogs method");
+        LOGGER.debug("Entering showAllBlogs method");
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
-        System.out.println(itsMe);
-        log.info(String.valueOf(itsMe));
+//        request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        String csrfToken = request.getHeader("X-CSRF-TOKEN");
+//        System.out.println("CSRF Token: " + csrfToken);
+////        LOGGER.info("CSRF Token: {}", csrfToken);
+//
+//
+//        System.out.println(itsMe);
+//        log.info(String.valueOf(itsMe));
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);
         model.addAttribute("userId", userId);
+
+
+        LOGGER.debug("Exiting showAllBlogs method");
+
+
         return "showBlog/showAll";
     }
 }

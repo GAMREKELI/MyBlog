@@ -3,7 +3,6 @@ package ru.gamrekeli.blogservice.securityConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -12,10 +11,9 @@ public class BlogServerConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/blog/**", "/api/v1/**").hasAuthority("SCOPE_resource.read")
+                                .requestMatchers("/blog/**").hasAuthority("SCOPE_resource.read")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()

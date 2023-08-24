@@ -28,6 +28,8 @@ public class BlogController {
 
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Blog blog) {
+        LOGGER.debug("************* START PostMapping BLOG *************");
+        LOGGER.debug(blog.toString());
         service.add(blog);
         return ResponseEntity.ok().build();
     }
