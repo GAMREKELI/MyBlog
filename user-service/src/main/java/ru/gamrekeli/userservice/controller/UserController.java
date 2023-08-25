@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/v1")
 @Slf4j
+//@RequiredArgsConstructor
 public class UserController {
 
     private static final Logger LOGGER
@@ -38,6 +42,12 @@ public class UserController {
 
     @Autowired
     private BlogClient blogClient;
+
+//    @Autowired
+//    private HttpSessionCsrfTokenRepository csrfTokenRepository;
+
+//    @Autowired
+//    private CsrfTokenRepository csrfTokenRepository;
 
     @GetMapping()
     public String showAll(Model model) {
@@ -54,22 +64,15 @@ public class UserController {
     // Отображение записей на странице пользователя
     @GetMapping("/with-blogs/{userId}")
     public String showAllBlogs(@PathVariable("userId") Long userId,
-                               Model model, Authentication authentication,
-                               HttpServletRequest request) {
-//        LOGGER.debug("Entering showAllBlogs method");
-        LOGGER.debug("Entering showAllBlogs method");
+                               Model model, Authentication authentication) {
+
+//        model.addAttribute("csrfToken", csrfToken.getToken());
+//        System.out.println(csrfToken.getToken());
+
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
-//        request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        String csrfToken = request.getHeader("X-CSRF-TOKEN");
-//        System.out.println("CSRF Token: " + csrfToken);
-////        LOGGER.info("CSRF Token: {}", csrfToken);
-//
-//
-//        System.out.println(itsMe);
-//        log.info(String.valueOf(itsMe));
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);
         model.addAttribute("userId", userId);
@@ -79,5 +82,11 @@ public class UserController {
 
 
         return "showBlog/showAll";
+    }
+
+    @PostMapping("/")
+    public String test(@RequestHeader("Authorization") String authorizationHeader) {
+        LOGGER.debug("***************   LLLLLOOOOOOLLLLLLL   ***************");
+        return "redirect:/api/v1/with-blogs/6";
     }
 }

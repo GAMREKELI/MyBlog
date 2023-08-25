@@ -1,9 +1,6 @@
 logging:
   level:
-    root: INFO
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.web: DEBUG
 
 server:
   port: 8081
@@ -15,8 +12,9 @@ eureka:
 
 spring:
   security:
-    main:
-      web-application-type: reactive
+    enabled: false
+#    main:
+#      web-application-type: reactive
     oauth2:
       resourceserver:
         jwt:

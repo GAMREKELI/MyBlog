@@ -1,22 +1,20 @@
 package ru.gamrekeli.authorizationserver.config;
 
+
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.juli.logging.Log;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -24,7 +22,8 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.KeyPair;
@@ -37,7 +36,6 @@ import java.util.UUID;
 @Slf4j
 public class AuthorizationServerConfig {
 
-//    private final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -59,6 +57,7 @@ public class AuthorizationServerConfig {
                 .redirectUri("http://127.0.0.1:9494/login/oauth2/code/gateway")
                 .scope(OidcScopes.OPENID)
                 .scope("resource.read")
+                .scope("resource.write")
                 .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
@@ -94,8 +93,8 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public ProviderSettings providerSettings() {
-        return ProviderSettings.builder()
+    public AuthorizationServerSettings providerSettings() {
+        return AuthorizationServerSettings.builder()
                 .issuer("http://localhost:9000")
                 .build();
     }

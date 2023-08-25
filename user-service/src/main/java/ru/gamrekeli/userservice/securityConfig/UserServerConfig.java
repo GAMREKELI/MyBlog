@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
@@ -13,6 +14,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.JwtAuthenticationConverterImpl;
 
 @EnableWebSecurity
+@Configuration
 public class UserServerConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServerConfig.class);
@@ -24,12 +26,16 @@ public class UserServerConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.info("Configuring security filter chain");
 
+        String[] patterns = new String[] {
+                "/api/v1/**",
+                "/blog/**"
+        };
+
         http
-                .csrf()
-                .csrfTokenRepository(csrfTokenRepository()).and()
+                .csrf().disable()
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/").hasAuthority("SCOPE_resource.read")
+                                .requestMatchers("/api/v1/**", "/blog/**").hasAuthority("SCOPE_resource.write")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()
@@ -38,17 +44,5 @@ public class UserServerConfig {
 
         logger.info("Security filter chain configured");
         return http.build();
-    }
-
-    @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("");
-    }
-
-    private CsrfTokenRepository csrfTokenRepository()
-    {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName("_csrf");
-        return repository;
     }
 }
