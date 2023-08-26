@@ -28,19 +28,20 @@ public class UserServerConfig {
 
         String[] patterns = new String[] {
                 "/api/v1/**",
-                "/blog/**"
+                "/blog/**",
+                "/comment/**"
         };
 
         http
 //                .csrf().disable()
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(patterns).hasAuthority("SCOPE_resource.write")
+                                .requestMatchers(patterns).hasAuthority("SCOPE_resource.read")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()
-                .jwt();
-//                .jwtAuthenticationConverter(jwtAuthenticationConverter);
+                .jwt()
+                .jwtAuthenticationConverter(jwtAuthenticationConverter);
 
         logger.info("Security filter chain configured");
         return http.build();
