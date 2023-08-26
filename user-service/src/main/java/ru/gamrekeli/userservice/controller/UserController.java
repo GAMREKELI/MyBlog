@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.service.annotation.GetExchange;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
@@ -78,13 +79,13 @@ public class UserController {
         model.addAttribute("userId", userId);
 
 
-        LOGGER.debug("Exiting showAllBlogs method");
+//        LOGGER.debug("Exiting showAllBlogs method");
 
 
         return "showBlog/showAll";
     }
 
-    @PostMapping("/")
+    @GetMapping("/")
     public String test(@RequestHeader("Authorization") String authorizationHeader) {
         LOGGER.debug("***************   LLLLLOOOOOOLLLLLLL   ***************");
         return "redirect:/api/v1/with-blogs/6";

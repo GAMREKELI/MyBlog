@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.service.annotation.DeleteExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
@@ -46,29 +48,27 @@ public class BlogController {
             return "addBlog/addBlog";
         }
         else {
-            return "redirect:/api/v1/with-blogs/" + userId;
+            return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
         }
     }
 
-    @PostMapping("/{userId}/create")
+    @GetMapping("/{userId}/create")
     public String addBlog(@ModelAttribute("blog") Blog blog,
                           @PathVariable("userId") Long userId,
                           Authentication authentication) {
-//        logger.info("Request received to fetch blogs for authorId: {}", userId);
-
         LOGGER.debug("************* START PostMapping /{userId}/create *************");
-        LOGGER.debug(blog.toString());
+//        LOGGER.debug(blog.toString());
 
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
             blog.setAuthorId(userId);
             blogClient.save("Bearer " + token, blog);
-//            blogClient.save(blog);
         }
-        return "redirect:/api/v1/with-blogs/" + userId;
+        LOGGER.debug("************* STOP PostMapping /{userId}/create *************");
+        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 
-    @DeleteMapping("/{userId}/{blogId}")
+    @GetMapping("/{userId}/{blogId}")
     public String deleteBlogById(@PathVariable("blogId") Long blogId,
                                  @PathVariable("userId") Long userId,
                                  Authentication authentication) {
@@ -81,6 +81,6 @@ public class BlogController {
             blogClient.delete("Bearer " + token, blogId);
         }
         LOGGER.debug("Exiting showAllBlogs method");
-        return "redirect:/api/v1/with-blogs/" + userId;
+        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 }

@@ -36,7 +36,7 @@ spring:
             - RemoveRequestHeader=Cookie
 
   security:
-    enabled: false
+#    enabled: false
     oauth2:
       client:
         registration:
@@ -50,3 +50,5 @@ spring:
         provider:
           spring:
             issuer-uri: http://localhost:9000
+#    oauth2Login:
+#      csrfToken: disabled

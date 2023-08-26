@@ -11,7 +11,7 @@ import ru.gamrekeli.blogservice.service.BlogService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/blog")
 public class BlogController {
@@ -22,21 +22,22 @@ public class BlogController {
     private final BlogService service;
 
     @GetMapping("/user/{authorId}")
-    public ResponseEntity<List<Blog>> findAllBlogsByAuthorId(@PathVariable("authorId") Long authorId) {
+    public ResponseEntity<List<Blog>> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader,
+                                                             @PathVariable("authorId") Long authorId) {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody Blog blog) {
+    public void save(@RequestHeader("Authorization") String authorizationHeader,
+                                  @RequestBody Blog blog) {
         LOGGER.debug("************* START PostMapping BLOG *************");
         LOGGER.debug(blog.toString());
         service.add(blog);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{blogId}")
-    public ResponseEntity<?> delete(@PathVariable("blogId") Long blogId) {
+    public void delete(@RequestHeader("Authorization") String authorizationHeader,
+                                    @PathVariable("blogId") Long blogId) {
         service.deleteByBlogId(blogId);
-        return ResponseEntity.ok().build();
     }
 }

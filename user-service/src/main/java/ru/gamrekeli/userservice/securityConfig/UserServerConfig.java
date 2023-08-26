@@ -32,15 +32,15 @@ public class UserServerConfig {
         };
 
         http
-                .csrf().disable()
+//                .csrf().disable()
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/v1/**", "/blog/**").hasAuthority("SCOPE_resource.write")
+                                .requestMatchers(patterns).hasAuthority("SCOPE_resource.write")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter);
+                .jwt();
+//                .jwtAuthenticationConverter(jwtAuthenticationConverter);
 
         logger.info("Security filter chain configured");
         return http.build();

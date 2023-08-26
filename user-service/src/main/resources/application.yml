@@ -2,6 +2,10 @@
 spring:
   application:
     name: user-service
+#  security:
+#    enabled: false
+#  oauth2Login:
+#    csrfToken: disabled
   config:
     import: optional:configserver:http://localhost:8088
   datasource:

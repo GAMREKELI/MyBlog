@@ -37,7 +37,7 @@ public class CommentController {
 
     }
 
-    @PostMapping("/with-blogs/{userId}/{blogId}/create")
+    @GetMapping("/with-blogs/{userId}/{blogId}/create")
     public String addComment(@ModelAttribute("commentForBlog") Comment comment,
                              @PathVariable("userId") Long userId, @PathVariable("blogId") Long blogId,
                              Authentication authentication) {
@@ -46,16 +46,16 @@ public class CommentController {
         comment.setBlogId(blogId);
         comment.setAuthor(authentication.getName());
         commentClient.save("Bearer " + token, comment);
-        return "redirect:/api/v1/comment/with-blogs/" + userId + "/" + blogId;
+        return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 
-    @DeleteMapping("/with-blogs/{userId}/{blogId}/{commentId}")
+    @GetMapping("/with-blogs/{userId}/{blogId}/{commentId}")
     public String deleteCommentById(@PathVariable("blogId") Long blogId,
                                     @PathVariable("userId") Long userId,
                                     @PathVariable("commentId") Long commentId,
                                     Authentication authentication) {
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         commentClient.delete("Bearer " + token, commentId);
-        return "redirect:/api/v1/comment/with-blogs/" + userId + "/" + blogId;
+        return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 }
