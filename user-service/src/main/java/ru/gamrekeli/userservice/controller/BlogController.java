@@ -21,6 +21,7 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
+import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
 
@@ -82,5 +83,11 @@ public class BlogController {
         }
         LOGGER.debug("Exiting showAllBlogs method");
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+    }
+
+    @GetMapping("/search")
+    public String searchBlog(@ModelAttribute("searchBlog")SearchBlog searchBlog) {
+
+        return "showAllByTitle";
     }
 }

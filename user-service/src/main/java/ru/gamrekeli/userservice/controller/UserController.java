@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.service.annotation.GetExchange;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
+import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 import ru.gamrekeli.userservice.service.UserService;
 
@@ -44,12 +45,6 @@ public class UserController {
     @Autowired
     private BlogClient blogClient;
 
-//    @Autowired
-//    private HttpSessionCsrfTokenRepository csrfTokenRepository;
-
-//    @Autowired
-//    private CsrfTokenRepository csrfTokenRepository;
-
     @GetMapping()
     public String showAll(Model model) {
         model.addAttribute("users", userService.findAll());
@@ -67,20 +62,16 @@ public class UserController {
     public String showAllBlogs(@PathVariable("userId") Long userId,
                                Model model, Authentication authentication) {
 
-//        model.addAttribute("csrfToken", csrfToken.getToken());
-//        System.out.println(csrfToken.getToken());
+        SearchBlog searchBlog = new SearchBlog();
 
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
+        model.addAttribute("search", searchBlog);
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);
         model.addAttribute("userId", userId);
-
-
-//        LOGGER.debug("Exiting showAllBlogs method");
-
 
         return "showBlog/showAll";
     }

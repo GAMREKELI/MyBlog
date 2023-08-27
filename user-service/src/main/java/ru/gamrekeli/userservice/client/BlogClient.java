@@ -17,6 +17,10 @@ public interface BlogClient {
     List<Blog> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader,
                                       @PathVariable("authorId") Long authorId);
 
+    @GetExchange("/blog/user/{authorId}/search")
+    List<Blog> findAllBlogsByAuthorIdSearch(@RequestHeader("Authorization") String authorizationHeader,
+                                      @PathVariable("authorId") Long authorId, String title);
+
     @PostExchange("/blog/add")
     public void save(@RequestHeader("Authorization") String authorizationHeader,
                      @RequestBody Blog blog);

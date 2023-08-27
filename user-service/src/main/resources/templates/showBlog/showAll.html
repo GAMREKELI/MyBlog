@@ -2,9 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Пользователи</title>
+  <title>Домашняя страница</title>
 </head>
 <body>
+
+  <form th:action="@{/api/v1/blog/search}" th:method="GET" th:object="${searchBlog}">
+    <label for="search">Найти: </label>
+    <input type="text" th:field="*{search}" id="search">
+  </form>
+
   <div th:each="blog: ${blogs}">
     <h2 th:text="${blog.getTitle()}">TITLE</h2>
     <p th:text="${blog.getContent()}">CONTENT</p>

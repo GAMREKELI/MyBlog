@@ -27,6 +27,12 @@ public class BlogController {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
 
+    @GetMapping("/user/{authorId}/search")
+    public ResponseEntity<List<Blog>> findAllBlogsByAuthorIdSearch(@RequestHeader("Authorization") String authorizationHeader,
+                                                             @PathVariable("authorId") Long authorId, String title) {
+        return ResponseEntity.ok(service.findAllByAuthorId(authorId));
+    }
+
     @PostMapping("/add")
     public void save(@RequestHeader("Authorization") String authorizationHeader,
                                   @RequestBody Blog blog) {

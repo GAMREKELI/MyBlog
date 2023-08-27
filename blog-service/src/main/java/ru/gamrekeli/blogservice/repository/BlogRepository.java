@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Long> {
     List<Blog> findAllByAuthorId(Long authorId);
+
+    List<Blog> findByTitleContaining(String title);
 }

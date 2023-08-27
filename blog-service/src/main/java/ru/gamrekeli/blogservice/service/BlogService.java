@@ -16,12 +16,13 @@ public class BlogService {
         repository.save(blog);
     }
 
-    public List<Blog> findAll() {
-        return repository.findAll();
-    }
 
     public List<Blog> findAllByAuthorId(Long authorId) {
         return repository.findAllByAuthorId(authorId);
+    }
+
+    public List<Blog> findAllByAuthorIdSearch(Long authorId, String title) {
+        return repository.findByTitleContaining(title);
     }
 
     public void deleteByBlogId(Long blogId) {
