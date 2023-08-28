@@ -8,6 +8,7 @@ import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import ru.gamrekeli.userservice.model.blog.Blog;
+import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ public interface BlogClient {
     List<Blog> findAllBlogsByAuthorId(@RequestHeader("Authorization") String authorizationHeader,
                                       @PathVariable("authorId") Long authorId);
 
-    @GetExchange("/blog/user/{authorId}/search")
+    @GetExchange("/blog/user/search")
     List<Blog> findAllBlogsByAuthorIdSearch(@RequestHeader("Authorization") String authorizationHeader,
-                                      @PathVariable("authorId") Long authorId, String title);
+                                            @RequestBody SearchBlog searchBlog);
 
     @PostExchange("/blog/add")
     public void save(@RequestHeader("Authorization") String authorizationHeader,

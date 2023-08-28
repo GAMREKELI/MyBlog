@@ -1,6 +1,9 @@
 logging:
   level:
-    org.springframework.security.web: DEBUG
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
 
 server:
   port: 8081

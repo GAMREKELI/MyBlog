@@ -1,4 +1,4 @@
-package ru.gamrekeli.userservice.model.searchBlog;
+package ru.gamrekeli.blogservice.model.searchBlog;
 
 import lombok.*;
 

@@ -60,7 +60,8 @@ public class UserController {
     // Отображение записей на странице пользователя
     @GetMapping("/with-blogs/{userId}")
     public String showAllBlogs(@PathVariable("userId") Long userId,
-                               Model model, Authentication authentication) {
+                               Model model,
+                               Authentication authentication) {
 
         SearchBlog searchBlog = new SearchBlog();
 
@@ -72,13 +73,31 @@ public class UserController {
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);
         model.addAttribute("userId", userId);
+        model.addAttribute("searchBlog", searchBlog);
 
         return "showBlog/showAll";
     }
 
-    @GetMapping("/")
-    public String test(@RequestHeader("Authorization") String authorizationHeader) {
-        LOGGER.debug("***************   LLLLLOOOOOOLLLLLLL   ***************");
-        return "redirect:/api/v1/with-blogs/6";
+    @GetMapping("/blog/with-blogs/{userId}/search")
+    public String searchBlog(@ModelAttribute("searchBlog") SearchBlog searchBlog,
+                             @PathVariable("userId") Long userId,
+                             Authentication authentication,
+                             Model model) {
+        if (searchBlog.getSearch().length() == 0 || searchBlog.getSearch() == null) {
+            return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+        }
+        else {
+            if (securityComponent.checkUserByUserId(authentication, userId)) {
+                String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+                searchBlog.setAuthorId(userId);
+
+                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, searchBlog);
+                LOGGER.debug("***************   LLLLLOOOOOOLLLLLLL   ***************");
+                model.addAttribute("id", userId);
+                model.addAttribute("blogSearch", blogSearch);
+                return "showBlog/showAllByTitle";
+            }
+        }
+        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 }

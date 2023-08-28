@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.blogservice.model.Blog;
+import ru.gamrekeli.blogservice.model.searchBlog.SearchBlog;
 import ru.gamrekeli.blogservice.service.BlogService;
 
 import java.util.List;
@@ -27,10 +28,13 @@ public class BlogController {
         return ResponseEntity.ok(service.findAllByAuthorId(authorId));
     }
 
-    @GetMapping("/user/{authorId}/search")
+    @GetMapping("/user/search")
     public ResponseEntity<List<Blog>> findAllBlogsByAuthorIdSearch(@RequestHeader("Authorization") String authorizationHeader,
-                                                             @PathVariable("authorId") Long authorId, String title) {
-        return ResponseEntity.ok(service.findAllByAuthorId(authorId));
+                                                                   @RequestBody SearchBlog searchBlog) {
+
+//        LOGGER.debug("********** BLOG CONTROLLER **********" + title);
+
+        return ResponseEntity.ok(service.findAllByAuthorIdSearch(searchBlog.getAuthorId(), searchBlog.getSearch()));
     }
 
     @PostMapping("/add")

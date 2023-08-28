@@ -24,6 +24,8 @@ import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/api/v1/blog")
@@ -77,7 +79,7 @@ public class BlogController {
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
 
-            log.info(String.valueOf("*************************************** TEST STRING ***************************************" ));
+//            log.info(String.valueOf("*************************************** TEST STRING ***************************************" ));
 
             blogClient.delete("Bearer " + token, blogId);
         }
@@ -85,9 +87,30 @@ public class BlogController {
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 
-    @GetMapping("/search")
-    public String searchBlog(@ModelAttribute("searchBlog")SearchBlog searchBlog) {
-
-        return "showAllByTitle";
-    }
+//    @GetMapping("/with-blogs/{userId}/search")
+//    public String searchBlog(@ModelAttribute("searchBlog")SearchBlog searchBlog,
+//                             @PathVariable("userId") Long userId,
+//                             Authentication authentication,
+//                             Model model) {
+//        if (searchBlog.getSearch().length() == 0 || searchBlog.getSearch() == null) {
+//            return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+//        }
+//        else {
+//            if (securityComponent.checkUserByUserId(authentication, userId)) {
+//                String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+//
+//                log.info(String.valueOf("***************************************" + userId + "***************************************" ));
+//
+////                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, userId, searchBlog.getSearch());
+////                System.out.println(userId);
+////                Long id = userId;
+//                String title = searchBlog.getSearch();
+//                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, userId, "test");
+//                model.addAttribute("id", userId);
+//                model.addAttribute("blogSearch", blogSearch);
+//                return "showAllByTitle";
+//            }
+//        }
+//        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+//    }
 }

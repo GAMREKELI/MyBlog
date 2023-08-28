@@ -2,9 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Поиск</title>
 </head>
 <body>
-$END$
+  <div th:each="blog: ${blogSearch}">
+    <h2 th:text="${blog.getTitle()}">TITLE</h2>
+    <p th:text="${blog.getContent()}">CONTENT</p>
+  </div>
+
+  <form th:action="@{/api/v1/with-blogs/{userId}(userId = ${id})}">
+    <button type="submit">Назад</button>
+  </form>
+
 </body>
 </html>

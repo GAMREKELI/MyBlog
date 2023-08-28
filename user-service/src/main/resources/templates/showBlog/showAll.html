@@ -6,9 +6,10 @@
 </head>
 <body>
 
-  <form th:action="@{/api/v1/blog/search}" th:method="GET" th:object="${searchBlog}">
-    <label for="search">Найти: </label>
+  <form th:action="@{/api/v1/blog/with-blogs/{userId}/search(userId = ${userId})}" th:method="GET" th:object="${searchBlog}">
+    <label for="search">Поиск блога: </label>
     <input type="text" th:field="*{search}" id="search">
+    <button type="submit">Найти</button>
   </form>
 
   <div th:each="blog: ${blogs}">
@@ -23,7 +24,6 @@
     <br/>
     <div th:if="${itsMe}">
       <form th:action="@{/api/v1/blog/{userId}/{blogId}(userId = ${userId}, blogId = ${blog.getBlogId()})}" th:method="GET">
-<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button type="submit">Удалить</button>
       </form>
     </div>
@@ -40,19 +40,8 @@
   <br/>
 <!--  Выйти из аккаунта-->
   <form th:action="@{/logout}" method="GET">
-<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
     <input type="submit" value="Sign Out"/>
   </form>
-
-  <br/>
-  <br/>
-  <br/>
-
-  <form th:action="@{/api/v1/}" th:method="GET">
-<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-    <button type="submit">TEST</button>
-  </form>
-
 
 </body>
 </html>

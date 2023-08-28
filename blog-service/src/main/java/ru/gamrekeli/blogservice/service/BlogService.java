@@ -22,7 +22,7 @@ public class BlogService {
     }
 
     public List<Blog> findAllByAuthorIdSearch(Long authorId, String title) {
-        return repository.findByTitleContaining(title);
+        return repository.findByTitleContaining(authorId, title);
     }
 
     public void deleteByBlogId(Long blogId) {
