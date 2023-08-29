@@ -32,20 +32,24 @@ public class SecurityConfig {
     SecurityFilterChain configureSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated())
                 .formLogin(form -> form
+                        .loginPage("/auth/login")
                         .successHandler(((request, response, authentication) -> {
                             String username = authentication.getName();
                             String targetUrl = "http://127.0.0.1:9494/api/v1/with-blogs/" + repository.findByUsername(username)
                                     .map(User::getUserId).orElse(null);
                             response.sendRedirect(targetUrl);
-                        })))
+                        }))
+                        .permitAll())
                 .authenticationProvider(authenticationProvider());
 
         return http.build();
 
     }
-//    http://127.0.0.1:9494/api/v1/with-blogs/6
+
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByUsername(username)
