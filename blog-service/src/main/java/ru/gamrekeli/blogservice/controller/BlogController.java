@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.blogservice.model.Blog;
 import ru.gamrekeli.blogservice.model.searchBlog.SearchBlog;
@@ -31,16 +30,12 @@ public class BlogController {
     @GetMapping("/user/search")
     public ResponseEntity<List<Blog>> findAllBlogsByAuthorIdSearch(@RequestHeader("Authorization") String authorizationHeader,
                                                                    @RequestBody SearchBlog searchBlog) {
-
-//        LOGGER.debug("********** BLOG CONTROLLER **********" + title);
-
         return ResponseEntity.ok(service.findAllByAuthorIdSearch(searchBlog.getAuthorId(), searchBlog.getSearch()));
     }
 
     @PostMapping("/add")
     public void save(@RequestHeader("Authorization") String authorizationHeader,
                                   @RequestBody Blog blog) {
-        LOGGER.debug("************* START PostMapping BLOG *************");
         LOGGER.debug(blog.toString());
         service.add(blog);
     }

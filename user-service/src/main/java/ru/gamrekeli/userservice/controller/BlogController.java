@@ -1,24 +1,14 @@
 package ru.gamrekeli.userservice.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.service.annotation.DeleteExchange;
-import org.springframework.web.service.annotation.PostExchange;
 import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
@@ -59,15 +49,11 @@ public class BlogController {
     public String addBlog(@ModelAttribute("blog") Blog blog,
                           @PathVariable("userId") Long userId,
                           Authentication authentication) {
-        LOGGER.debug("************* START PostMapping /{userId}/create *************");
-//        LOGGER.debug(blog.toString());
-
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
             blog.setAuthorId(userId);
             blogClient.save("Bearer " + token, blog);
         }
-        LOGGER.debug("************* STOP PostMapping /{userId}/create *************");
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 
@@ -78,39 +64,30 @@ public class BlogController {
         LOGGER.debug("Entering showAllBlogs method");
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
-
-//            log.info(String.valueOf("*************************************** TEST STRING ***************************************" ));
-
             blogClient.delete("Bearer " + token, blogId);
         }
-        LOGGER.debug("Exiting showAllBlogs method");
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
 
-//    @GetMapping("/with-blogs/{userId}/search")
-//    public String searchBlog(@ModelAttribute("searchBlog")SearchBlog searchBlog,
-//                             @PathVariable("userId") Long userId,
-//                             Authentication authentication,
-//                             Model model) {
-//        if (searchBlog.getSearch().length() == 0 || searchBlog.getSearch() == null) {
-//            return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
-//        }
-//        else {
-//            if (securityComponent.checkUserByUserId(authentication, userId)) {
-//                String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
-//
-//                log.info(String.valueOf("***************************************" + userId + "***************************************" ));
-//
-////                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, userId, searchBlog.getSearch());
-////                System.out.println(userId);
-////                Long id = userId;
-//                String title = searchBlog.getSearch();
-//                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, userId, "test");
-//                model.addAttribute("id", userId);
-//                model.addAttribute("blogSearch", blogSearch);
-//                return "showAllByTitle";
-//            }
-//        }
-//        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
-//    }
+    @GetMapping("/with-blogs/{userId}/search")
+    public String searchBlog(@ModelAttribute("searchBlog") SearchBlog searchBlog,
+                             @PathVariable("userId") Long userId,
+                             Authentication authentication,
+                             Model model) {
+        if (searchBlog.getSearch().length() == 0 || searchBlog.getSearch() == null) {
+            return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+        }
+        else {
+            if (securityComponent.checkUserByUserId(authentication, userId)) {
+                String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
+                searchBlog.setAuthorId(userId);
+
+                List<Blog> blogSearch = blogClient.findAllBlogsByAuthorIdSearch("Bearer " + token, searchBlog);
+                model.addAttribute("id", userId);
+                model.addAttribute("blogSearch", blogSearch);
+                return "showBlog/showAllByTitle";
+            }
+        }
+        return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
+    }
 }

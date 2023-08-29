@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.gamrekeli.authorizationserver.model.User;
 import ru.gamrekeli.authorizationserver.repository.UserRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -31,15 +32,20 @@ public class SecurityConfig {
     SecurityFilterChain configureSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
-//                .csrf().disable()
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .successHandler(((request, response, authentication) -> {
+                            String username = authentication.getName();
+                            String targetUrl = "http://127.0.0.1:9494/api/v1/with-blogs/" + repository.findByUsername(username)
+                                    .map(User::getUserId).orElse(null);
+                            response.sendRedirect(targetUrl);
+                        })))
                 .authenticationProvider(authenticationProvider());
 
         return http.build();
 
     }
-
+//    http://127.0.0.1:9494/api/v1/with-blogs/6
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByUsername(username)
