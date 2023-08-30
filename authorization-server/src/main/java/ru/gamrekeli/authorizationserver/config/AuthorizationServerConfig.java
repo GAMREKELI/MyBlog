@@ -61,7 +61,7 @@ public class AuthorizationServerConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://127.0.0.1:9494/auth/login/oauth2/code/gateway")
+                .redirectUri("http://127.0.0.1:9494/login/oauth2/code/gateway")
                 .scope(OidcScopes.OPENID)
                 .scope("resource.read")
                 .scope("resource.write")

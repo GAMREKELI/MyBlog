@@ -33,10 +33,10 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
-                        .loginPage("/auth/login")
+//                        .loginPage("/auth/login")
                         .successHandler(((request, response, authentication) -> {
                             String username = authentication.getName();
                             String targetUrl = "http://127.0.0.1:9494/api/v1/with-blogs/" + repository.findByUsername(username)
@@ -49,6 +49,19 @@ public class SecurityConfig {
         return http.build();
 
     }
+
+//    @Bean
+//    SecurityFilterChain configureSecurityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http
+////                .csrf().disable()
+//                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+//                .formLogin(Customizer.withDefaults())
+//                .authenticationProvider(authenticationProvider());
+//
+//        return http.build();
+//
+//    }
 
     @Bean
     public UserDetailsService userDetailsService() {
