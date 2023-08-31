@@ -68,4 +68,9 @@ public class UserController {
 
         return "showBlog/showAll";
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:http://127.0.0.1:9000/logout";
+    }
 }
