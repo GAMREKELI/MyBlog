@@ -8,10 +8,6 @@ spring:
     name: authorization-server
   config:
     import: optional:configserver:http://localhost:8088
-#  security:
-#    enabled: false
-#  oauth2Login:
-#    csrfToken: disabled
   datasource:
     url: jdbc:mysql://localhost:3306/users
     username: pdursley

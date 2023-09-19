@@ -23,8 +23,6 @@ public class SecurityComponent {
             Jwt jwtToken = (Jwt) authentication.getPrincipal();
             String userIdFromToken = jwtToken.getClaim("sub").toString();
 
-            log.info("************" + userIdFromToken + "************");
-
             User checkUser = repository.findByUsername(userIdFromToken).orElse(null);
 
             // Делаю проверку что авторизованный пользователь есть в базе и его id совпадает с id запроса.

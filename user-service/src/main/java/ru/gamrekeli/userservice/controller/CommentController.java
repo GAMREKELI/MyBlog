@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.userservice.client.CommentClient;
 import ru.gamrekeli.userservice.model.comment.Comment;
+import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,16 +24,22 @@ public class CommentController {
     @Autowired
     private CommentClient commentClient;
 
+    @Autowired
+    private SecurityComponent securityComponent;
+
     @GetMapping("/with-blogs/{userId}/{blogId}")
     public String showAllComment(@PathVariable("userId") Long userId,
                                  @PathVariable("blogId") Long blogId,
                                  Model model,
                                  @ModelAttribute("commentForBlog") Comment comment,
                                  Authentication authentication) {
+        boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
+
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         model.addAttribute("comments", commentClient.findAllCommentsByBlogId("Bearer " + token, blogId));
         model.addAttribute("blogId", blogId);
         model.addAttribute("userId", userId);
+        model.addAttribute("itsMe", itsMe);
         return "showComment/showAll";
 
     }

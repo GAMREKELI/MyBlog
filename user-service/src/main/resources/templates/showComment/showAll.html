@@ -8,10 +8,12 @@
   <div th:each="comment: ${comments}">
     <p th:text="${comment.getAuthor()}">AUTHOR</p>
     <p th:text="${comment.getText()}">TEXT</p>
-      <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}/{commentId}(userId = ${userId}, blogId = ${blogId}, commentId = ${comment.getCommentId()})}" th:method="GET">
-          <br/>
-          <button type="submit">Удалить</button>
-      </form>
+      <div th:if="${itsMe}">
+          <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}/{commentId}(userId = ${userId}, blogId = ${blogId}, commentId = ${comment.getCommentId()})}" th:method="GET">
+              <br/>
+              <button type="submit">Удалить</button>
+          </form>
+      </div>
   </div>
   <form th:action="@{/api/v1/comment/with-blogs/{userId}/{blogId}/create(userId = ${userId}, blogId = ${blogId})}" th:method="GET" th:object="${commentForBlog}">
       <br/>

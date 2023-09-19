@@ -15,8 +15,8 @@ eureka:
 
 spring:
   security:
-    main:
-      web-application-type: reactive
+#    main:
+#      web-application-type: reactive
     oauth2:
       resourceserver:
         jwt:
