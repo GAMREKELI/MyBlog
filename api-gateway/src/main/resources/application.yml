@@ -36,7 +36,6 @@ spring:
             - RemoveRequestHeader=Cookie
 
   security:
-#    enabled: false
     oauth2:
       client:
         registration:
@@ -49,6 +48,4 @@ spring:
             scope: openid,resource.read,resource.write
         provider:
           spring:
-            issuer-uri: http://localhost:9000
-#    oauth2Login:
-#      csrfToken: disabled
+            issuer-uri: http://localhost:9001

@@ -21,8 +21,6 @@ public class UserServerConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        logger.info("Configuring security filter chain");
-
         String[] patterns = new String[] {
                 "/api/v1/**",
                 "/blog/**",

@@ -29,4 +29,4 @@ logging:
     org.springframework.security.oauth2: DEBUG
 
 server:
-  port: 9000
+  port: 9001
