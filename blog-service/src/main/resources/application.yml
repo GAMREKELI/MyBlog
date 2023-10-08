@@ -3,10 +3,6 @@ spring:
     name: blog-service
   config:
     import: optional:configserver:http://localhost:8088
-#  security:
-#    enabled: false
-#  oauth2Login:
-#    csrfToken: disabled
   datasource:
     url: jdbc:mysql://localhost:3306/blogs
     username: pdursley
@@ -19,3 +15,5 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+  kafka:
+    bootstrap-servers: localhost:29092

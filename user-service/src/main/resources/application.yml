@@ -20,3 +20,5 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+  kafka:
+    bootstrap-servers: localhost:29092
