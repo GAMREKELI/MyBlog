@@ -20,7 +20,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/v1")
 @Slf4j
-//@RequiredArgsConstructor
 public class UserController {
 
     private static final Logger LOGGER
@@ -29,7 +28,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Ограничевание функционала пользователей между собой (авторизованный пользователь может редактировать только свою страницу)
+    // Ограничевание функционала пользователей между собой
+    // (авторизованный пользователь может редактировать только свою страницу)
     @Autowired
     private SecurityComponent securityComponent;
 
@@ -71,6 +71,6 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
-        return "redirect:http://127.0.0.1:9000/logout";
+        return "redirect:http://127.0.0.1:9001/logout";
     }
 }

@@ -1,5 +1,6 @@
 package ru.gamrekeli.userservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import ru.gamrekeli.userservice.client.BlogClient;
 import ru.gamrekeli.userservice.model.blog.Blog;
 import ru.gamrekeli.userservice.model.searchBlog.SearchBlog;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
+import ru.gamrekeli.userservice.service.BlogService;
 
 import java.util.List;
 
@@ -31,6 +33,9 @@ public class BlogController {
     @Autowired
     private BlogClient blogClient;
 
+    @Autowired
+    private BlogService blogService;
+
     @GetMapping("/{userId}/add-blog")
     public String showCreateBlogForm(@PathVariable("userId") Long userId,
                                      Model model,
@@ -48,11 +53,13 @@ public class BlogController {
     @GetMapping("/{userId}/create")
     public String addBlog(@ModelAttribute("blog") Blog blog,
                           @PathVariable("userId") Long userId,
-                          Authentication authentication) {
+                          Authentication authentication) throws JsonProcessingException {
+
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
             blog.setAuthorId(userId);
-            blogClient.save("Bearer " + token, blog);
+//            blogClient.save("Bearer " + token, blog);
+            blogService.createBlog(blog);
         }
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }
