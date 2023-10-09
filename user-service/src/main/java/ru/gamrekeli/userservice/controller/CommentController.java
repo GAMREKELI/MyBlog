@@ -1,5 +1,6 @@
 package ru.gamrekeli.userservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.gamrekeli.userservice.client.CommentClient;
 import ru.gamrekeli.userservice.model.comment.Comment;
 import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityComponent;
+import ru.gamrekeli.userservice.service.CommentService;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +28,9 @@ public class CommentController {
 
     @Autowired
     private SecurityComponent securityComponent;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/with-blogs/{userId}/{blogId}")
     public String showAllComment(@PathVariable("userId") Long userId,
@@ -47,12 +52,14 @@ public class CommentController {
     @GetMapping("/with-blogs/{userId}/{blogId}/create")
     public String addComment(@ModelAttribute("commentForBlog") Comment comment,
                              @PathVariable("userId") Long userId, @PathVariable("blogId") Long blogId,
-                             Authentication authentication) {
+                             Authentication authentication) throws JsonProcessingException {
+
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
         comment.setAuthorId(userId);
         comment.setBlogId(blogId);
         comment.setAuthor(authentication.getName());
-        commentClient.save("Bearer " + token, comment);
+//        commentClient.save("Bearer " + token, comment);
+        commentService.createComment(comment);
         return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 

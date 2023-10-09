@@ -19,4 +19,6 @@ spring:
     consumer:
       group-id: "default"
   topic:
-    name: blogs
+    name-blog-add: AddBlog
+    name-blog-getAll: getBlogs
+    name-blog-pushAll: pushBlogs

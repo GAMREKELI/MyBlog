@@ -23,4 +23,7 @@ spring:
 #  kafka:
 #    bootstrap-servers: localhost:29092
   topic:
-    name: blogs
+    name-blog-add: AddBlog
+    name-blog-getAll: getBlogs
+    name-blog-pushAll: pushBlogs
+    name-comment: comments

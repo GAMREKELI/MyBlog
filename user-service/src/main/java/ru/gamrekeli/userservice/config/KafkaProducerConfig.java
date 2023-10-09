@@ -34,9 +34,18 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public NewTopic topic() {
+    public NewTopic topicBlog() {
         return TopicBuilder
                 .name("blogs")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic topicComment() {
+        return TopicBuilder
+                .name("comments")
                 .partitions(1)
                 .replicas(1)
                 .build();
