@@ -4,45 +4,72 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
+@Table(
+        name = "comments"
+)
 public class Comment {
 
     @Id
     @SequenceGenerator(
             name = "sequence_comment",
-            sequenceName = "sequence_comment",
-            allocationSize = 1
+            sequenceName = "sequence_comment"
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "sequence_comment"
     )
     private Long commentId;
-    @Column(
-            name = "text",
-            nullable = false
-    )
+
     private String text;
-
-    @Column(
-            name = "author_id",
-            nullable = false
-    )
     private Long authorId;
-
-    @Column(
-            name = "author",
-            nullable = false
-    )
     private String author;
     @Column(
             name = "blog",
             nullable = false
     )
     private Long blogId;
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Long getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(Long blogId) {
+        this.blogId = blogId;
+    }
 }

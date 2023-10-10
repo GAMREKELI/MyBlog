@@ -33,16 +33,9 @@ public class BlogController {
         return ResponseEntity.ok(service.findAllByAuthorIdSearch(searchBlog.getAuthorId(), searchBlog.getSearch()));
     }
 
-    @PostMapping("/add")
-    public void save(@RequestHeader("Authorization") String authorizationHeader,
-                                  @RequestBody Blog blog) {
-        LOGGER.debug(blog.toString());
-        service.add(blog);
-    }
-
-    @DeleteMapping("/delete/{blogId}")
-    public void delete(@RequestHeader("Authorization") String authorizationHeader,
-                                    @PathVariable("blogId") Long blogId) {
-        service.deleteByBlogId(blogId);
-    }
+//    @DeleteMapping("/delete/{blogId}")
+//    public void delete(@RequestHeader("Authorization") String authorizationHeader,
+//                                    @PathVariable("blogId") Long blogId) {
+//        service.deleteByBlogId(blogId);
+//    }
 }

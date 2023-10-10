@@ -8,9 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Comment {
-
     private Long commentId;
-
     private String text;
     private Long authorId;
     private String author;

@@ -59,6 +59,7 @@ public class CommentController {
         comment.setBlogId(blogId);
         comment.setAuthor(authentication.getName());
 //        commentClient.save("Bearer " + token, comment);
+        System.out.println("-----------" + comment.toString() + "------------");
         commentService.createComment(comment);
         return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }

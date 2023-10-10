@@ -10,7 +10,7 @@ import ru.gamrekeli.userservice.model.comment.Comment;
 
 @Component
 public class CommentProducer {
-    @Value("${spring.topic.name-comment}")
+    @Value("${spring.topic.name-comment-add}")
     private String commentTopic;
 
     @Autowired
@@ -21,6 +21,7 @@ public class CommentProducer {
 
     public String sendMessageForAddComment(Comment comment) throws JsonProcessingException {
         String commentMessage = objectMapper.writeValueAsString(comment);
+        System.out.println(commentMessage);//
         kafkaTemplate.send(commentTopic, commentMessage);
 
         return "message send";

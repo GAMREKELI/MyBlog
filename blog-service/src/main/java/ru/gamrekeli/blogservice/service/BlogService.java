@@ -17,10 +17,6 @@ public class BlogService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public void add(Blog blog) {
-        repository.save(blog);
-    }
-
 
     public List<Blog> findAllByAuthorId(Long authorId) {
         return repository.findAllByAuthorId(authorId);
@@ -34,7 +30,7 @@ public class BlogService {
         repository.deleteById(blogId);
     }
 
-    public void persistBlog(BlogDto blogDto) {
+    public void addBlog(BlogDto blogDto) {
         Blog blog = modelMapper.map(blogDto, Blog.class);
         Blog persistedBlog = repository.save(blog);
     }

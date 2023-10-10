@@ -14,7 +14,7 @@ import ru.gamrekeli.commentservice.service.CommentService;
 @Component
 public class Consumer {
 
-    private static final String orderTopic = "${spring.topic.name}";
+    private static final String orderTopic = "${spring.topic.name-comment-add}";
 
     @Autowired
     private ObjectMapper objectMapper;

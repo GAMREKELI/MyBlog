@@ -24,6 +24,5 @@ spring:
 #    bootstrap-servers: localhost:29092
   topic:
     name-blog-add: AddBlog
-    name-blog-getAll: getBlogs
-    name-blog-pushAll: pushBlogs
-    name-comment: comments
+    name-blog-delete: DeleteBlog
+    name-comment-add: AddComment

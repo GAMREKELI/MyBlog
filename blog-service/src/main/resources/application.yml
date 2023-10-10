@@ -20,5 +20,4 @@ spring:
       group-id: "default"
   topic:
     name-blog-add: AddBlog
-    name-blog-getAll: getBlogs
-    name-blog-pushAll: pushBlogs
+    name-blog-delete: DeleteBlog

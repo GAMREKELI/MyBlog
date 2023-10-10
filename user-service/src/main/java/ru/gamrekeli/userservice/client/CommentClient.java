@@ -15,9 +15,6 @@ public interface CommentClient {
     @GetExchange("/comment/{blogId}")
     List<Comment> findAllCommentsByBlogId(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("blogId") Long blogId);
 
-    @PostExchange("/comment/add")
-    public void save(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Comment comment);
-
     @DeleteExchange("/comment/delete/{commentId}")
     public void delete(@RequestHeader("Authorization") String authorizationHeader, @PathVariable("commentId") Long commentId);
 }

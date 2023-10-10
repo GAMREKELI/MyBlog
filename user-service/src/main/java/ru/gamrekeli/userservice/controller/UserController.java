@@ -17,7 +17,6 @@ import ru.gamrekeli.userservice.securityConfig.authorizationComponent.SecurityCo
 import ru.gamrekeli.userservice.service.UserService;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -63,12 +62,9 @@ public class UserController {
 
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
 
-//        List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
-        blogProducer.sendMessageForGetBlogs(userId);
-        CompletableFuture<List<Blog>> futureBlogs = new CompletableFuture<>();
+        List<Blog> blogs = blogClient.findAllBlogsByAuthorId("Bearer " + token, userId);
         boolean itsMe = securityComponent.checkUserByUserId(authentication, userId);
 
-        List<Blog> blogs = futureBlogs.join();
         model.addAttribute("search", searchBlog);
         model.addAttribute("itsMe", itsMe);
         model.addAttribute("blogs", blogs);

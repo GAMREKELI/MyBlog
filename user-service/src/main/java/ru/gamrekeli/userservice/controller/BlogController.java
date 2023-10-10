@@ -58,7 +58,6 @@ public class BlogController {
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
             blog.setAuthorId(userId);
-//            blogClient.save("Bearer " + token, blog);
             blogService.createBlog(blog);
         }
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
@@ -67,11 +66,13 @@ public class BlogController {
     @GetMapping("/{userId}/{blogId}")
     public String deleteBlogById(@PathVariable("blogId") Long blogId,
                                  @PathVariable("userId") Long userId,
-                                 Authentication authentication) {
+                                 Authentication authentication) throws JsonProcessingException
+    {
         LOGGER.debug("Entering showAllBlogs method");
         if (securityComponent.checkUserByUserId(authentication, userId)) {
             String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
-            blogClient.delete("Bearer " + token, blogId);
+//            blogClient.delete("Bearer " + token, blogId);
+            blogService.sendMessageForDeleteBlog(blogId);
         }
         return "redirect:http://127.0.0.1:9494/api/v1/with-blogs/" + userId;
     }

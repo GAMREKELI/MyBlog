@@ -26,11 +26,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findAllByBlogId(blogId));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody Comment comment) {
-        commentService.add(comment);
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<?> save(@RequestBody Comment comment) {
+//        commentService.add(comment);
+//        return ResponseEntity.ok().build();
+//    }
 
     @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<?> delete(@PathVariable("commentId") Long commentId) {
