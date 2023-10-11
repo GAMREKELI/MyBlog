@@ -59,4 +59,13 @@ public class KafkaProducerConfig {
                 .partitions(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic topicDeleteComment() {
+        return TopicBuilder
+                .name("DeleteComment")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }

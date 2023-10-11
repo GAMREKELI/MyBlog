@@ -11,7 +11,10 @@ import ru.gamrekeli.userservice.model.comment.Comment;
 @Component
 public class CommentProducer {
     @Value("${spring.topic.name-comment-add}")
-    private String commentTopic;
+    private String addCommentTopic;
+
+    @Value("${spring.topic.name-comment-delete}")
+    private String deleteCommentTopic;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -21,8 +24,14 @@ public class CommentProducer {
 
     public String sendMessageForAddComment(Comment comment) throws JsonProcessingException {
         String commentMessage = objectMapper.writeValueAsString(comment);
-        System.out.println(commentMessage);//
-        kafkaTemplate.send(commentTopic, commentMessage);
+        kafkaTemplate.send(addCommentTopic, commentMessage);
+
+        return "message send";
+    }
+
+    public String sendMessageForDeleteComment(Long commentId) throws JsonProcessingException {
+        String commentMessage = objectMapper.writeValueAsString(commentId);
+        kafkaTemplate.send(deleteCommentTopic, commentMessage);
 
         return "message send";
     }

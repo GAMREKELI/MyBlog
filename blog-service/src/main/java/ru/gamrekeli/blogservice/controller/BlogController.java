@@ -32,10 +32,4 @@ public class BlogController {
                                                                    @RequestBody SearchBlog searchBlog) {
         return ResponseEntity.ok(service.findAllByAuthorIdSearch(searchBlog.getAuthorId(), searchBlog.getSearch()));
     }
-
-//    @DeleteMapping("/delete/{blogId}")
-//    public void delete(@RequestHeader("Authorization") String authorizationHeader,
-//                                    @PathVariable("blogId") Long blogId) {
-//        service.deleteByBlogId(blogId);
-//    }
 }

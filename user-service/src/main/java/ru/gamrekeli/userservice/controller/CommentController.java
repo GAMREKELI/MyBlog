@@ -58,7 +58,6 @@ public class CommentController {
         comment.setAuthorId(userId);
         comment.setBlogId(blogId);
         comment.setAuthor(authentication.getName());
-//        commentClient.save("Bearer " + token, comment);
         System.out.println("-----------" + comment.toString() + "------------");
         commentService.createComment(comment);
         return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
@@ -68,9 +67,10 @@ public class CommentController {
     public String deleteCommentById(@PathVariable("blogId") Long blogId,
                                     @PathVariable("userId") Long userId,
                                     @PathVariable("commentId") Long commentId,
-                                    Authentication authentication) {
+                                    Authentication authentication) throws JsonProcessingException
+    {
         String token = ((Jwt)authentication.getPrincipal()).getTokenValue();
-        commentClient.delete("Bearer " + token, commentId);
+        commentService.deleteComment(commentId);
         return "redirect:http://127.0.0.1:9494/api/v1/comment/with-blogs/" + userId + "/" + blogId;
     }
 }

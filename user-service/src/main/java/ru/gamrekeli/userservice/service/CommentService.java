@@ -15,4 +15,8 @@ public class CommentService {
     public String createComment(Comment comment) throws JsonProcessingException {
         return producer.sendMessageForAddComment(comment);
     }
+
+    public String deleteComment(Long commentId) throws JsonProcessingException {
+        return producer.sendMessageForDeleteComment(commentId);
+    }
 }

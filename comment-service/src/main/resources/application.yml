@@ -20,3 +20,4 @@ spring:
       group-id: "default"
   topic:
     name-comment-add: AddComment
+    name-comment-delete: DeleteComment
